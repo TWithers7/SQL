@@ -1,0 +1,77 @@
+CREATE TABLE Technologist (
+ID INTEGER PRIMARY KEY,
+Name TEXT,
+Gender TEXT,
+DOB TEXT,
+Modality TEXT);
+
+INSERT INTO Technologist (Name, Gender, DOB, Modality)
+VALUES ("Dan Smith", "M", "1-12-1980", "Cat Scan");
+INSERT INTO Technologist (Name, Gender, DOB, Modality)
+VALUES ("Casey Davis", "F", "2-24-1984", "MRI"); 
+INSERT INTO Technologist (Name, Gender, DOB, Modality)
+VALUES ("John Halbeck", "M", "3-30-1992", "Cat Scan");
+INSERT INTO Technologist (Name, Gender, DOB, Modality)
+VALUES ("Tessa Day", "F", "7-13-1986", "MRI");
+INSERT INTO Technologist (Name, Gender, DOB, Modality)
+VALUES ("Lana Jackson", "F", "12-1-1976", "Cat Scan");
+INSERT INTO Technologist (Name, Gender, DOB, Modality)
+VALUES ("Alex Alvarez", "M", "10-3-1971", "MRI");
+
+CREATE TABLE Work_Assignment (
+Tech_ID INTEGER,
+Location TEXT,
+Office TEXT);
+
+INSERT INTO Work_Assignment (Tech_ID, Location, Office)
+VALUES (2, "Tinley Park, IL", "SW Office");
+INSERT INTO Work_Assignment (Tech_ID, Location, Office)
+VALUES (4, "Aurora, IL", "NW Office");
+INSERT INTO Work_Assignment (Tech_ID, Location, Office)
+VALUES (6, "Chicago, IL", "Main Office");
+INSERT INTO Work_Assignment (Tech_ID, Location, Office)
+VALUES (5, "Tinley Park, IL", "SW Office");
+INSERT INTO Work_Assignment (Tech_ID, Location, Office)
+VALUES (1, "Chicago, IL", "Main Office");
+INSERT INTO Work_Assignment (Tech_ID, Location, Office)
+VALUES (3, "Chicago, IL", "Main Office");
+
+CREATE TABLE Contact_Info (
+Tech_ID INTEGER,
+Email TEXT,
+Cell_Phone TEXT);
+
+INSERT INTO Contact_Info (Tech_ID, Email, Cell_Phone)
+VALUES (1, "DSmith@work.com", "312-747-8212");
+INSERT INTO Contact_Info (Tech_ID, Email, Cell_Phone)
+VALUES (2, "CDavis@work.com", "708-127-3217");
+INSERT INTO Contact_Info (Tech_ID, Email, Cell_Phone)
+VALUES (3, "JHalbeck@work.com", "312-442-8895");
+INSERT INTO Contact_Info (Tech_ID, Email, Cell_Phone)
+VALUES (4, "TDay@work.com", "708-157-2213");
+INSERT INTO Contact_Info (Tech_ID, Email, Cell_Phone)
+VALUES (5, "LJackson@work.com", "847-333-6263");
+INSERT INTO Contact_Info (Tech_ID, Email, Cell_Phone)
+VALUES (6, "AAlvarez@work.com", "708-157-2213");
+
+/*Provide all the employees names, email and phone number*/
+
+SELECT Technologist.name, Contact_Info.email, Contact_Info.Cell_Phone FROM Technologist
+JOIN Contact_Info
+ON Technologist.id=Contact_Info.Tech_ID;
+
+/* Dan Smith has called off work. Please list the name, office and cell phone of the technologist who can cover his shift?*/
+
+SELECT Technologist.name, Work_Assignment.Office, Contact_Info.Cell_Phone FROM Technologist
+JOIN Work_Assignment
+ON Technologist.id=Work_Assignment.Tech_ID
+JOIN Contact_Info
+ON Technologist.id=Contact_Info.Tech_ID
+WHERE Modality = "Cat Scan";
+
+/*Which Technologist work in Chicago, IL and what are their modalities?*/
+
+SELECT Technologist.name, Work_Assignment.Location, Technologist.Modality FROM Technologist
+JOIN Work_Assignment
+ON Technologist.id=Work_Assignment.Tech_ID
+WHERE Location = "Chicago, IL";
